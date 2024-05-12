@@ -44,7 +44,7 @@ const verifyToken = async(req ,res ,next) =>{
   if(!token){
     return res.status(401).send({message: 'not authorized'})
   }
-  jwt.verify(token , process.env.ACCESS_TOKEN_SECRET,(err , decoded) =>{
+  jwt.verify(token , process.env.DB_TOKEN_SECRET,(err , decoded) =>{
 if(err){
   console.log(err)
   return res.status(401).send({message: 'unauthorized'})
@@ -73,6 +73,7 @@ async function run() {
       .cookie('token',token,{
         httpOnly:true,
         secure:false,
+        sameSite:'strict'
        
       })
       .send({success:true})
